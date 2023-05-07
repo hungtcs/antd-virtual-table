@@ -40,34 +40,36 @@ export function VirtualTable<RecordType extends object = any>(props: VirtualTabl
     [columns, tableSize],
   );
 
-  const [connectObject] = useState<any>(() => {
-    const obj = {};
-    Object.defineProperty(obj, 'scrollLeft', {
-      get: () => {
-        if (gridRef.current) {
-          return gridRef.current?.state?.scrollLeft;
-        }
-        return null;
-      },
-      set: (scrollLeft: number) => {
-        if (gridRef.current) {
-          gridRef.current.scrollTo({ scrollLeft });
-        }
-      },
-    });
-
-    return obj;
-  });
+  // const connectObject = useMemo<any>(
+  //   () => {
+  //     const obj = {};
+  //     Object.defineProperty(obj, 'scrollLeft', {
+  //       get: () => {
+  //         if (gridRef.current) {
+  //           return gridRef.current?.state?.scrollLeft;
+  //         }
+  //         return null;
+  //       },
+  //       set: (scrollLeft: number) => {
+  //         if (gridRef.current) {
+  //           gridRef.current.scrollTo({ scrollLeft });
+  //         }
+  //       },
+  //     });
+  //     return obj;
+  //   },
+  //   [],
+  // );
 
   const renderTableBody = useCallback<CustomizeScrollBody<RecordType>>(
     (data, info) => {
-      const { ref, scrollbarSize, onScroll } = info;
+      const { scrollbarSize, onScroll } = info;
 
-      if (ref instanceof Function) {
-        ref(connectObject);
-      } else {
-        (ref as any).current = connectObject;
-      }
+      // if (ref instanceof Function) {
+      //   ref(connectObject);
+      // } else {
+      //   (ref as any).current = connectObject;
+      // }
 
       const totalHeight = data.length * 54;
       const tableRowHeight = size === 'small' ? 39 : size === 'middle' ? 47 : 55;
@@ -109,7 +111,7 @@ export function VirtualTable<RecordType extends object = any>(props: VirtualTabl
         </VariableSizeGrid>
       );
     },
-    [connectObject, mergedColumns, size, tableSize, token],
+    [mergedColumns, size, tableSize, token],
   );
 
   useEffect(

@@ -15,6 +15,9 @@ export default function App() {
         title: 'A',
         width: 100,
         dataIndex: 'index',
+        render: (value) => {
+          return `A - ${ value }`;
+        },
       },
       {
         title: 'B',
